@@ -27,8 +27,8 @@ add_action('save_post', 'send_email_when_create_new_post');
 // Contoh Filter Hooks
 
 function modify_post_content($content){
-    // $gambar = '<img src="http://belajarwp.test/wp-content/uploads/2022/09/undraw_Performance_overview_re_mqrq.png"/>';
-    // $content = str_replace('[tampilkan gambar]',$gambar,$content);
+    $gambar = '<img src="http://belajarwp.test/wp-content/uploads/2022/09/undraw_Performance_overview_re_mqrq.png"/>';
+    $content = str_replace('[tampilkan gambar]',$gambar,$content);
     return $content;
 }
 
