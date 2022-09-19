@@ -54,9 +54,30 @@ function create_new_admin_menu(){
         71
     );
 
+
+
+
+    add_submenu_page(
+        'my-menu-slug',
+        'Menu Tambahan 1',
+       'subMenu',
+       'manage_options',
+       'my-sub-menu',
+        'my_sub_menu',
+       1
+    );
+
+    // add_dashboard_page($page_title:string,$menu_title:string,$capability:string,$menu_slug:string,$callback:callable,$position:integer|null )
+    add_media_page(
+          'Menu Tambahan 1',
+       'subMenu',
+       'manage_options',
+       'my-sub-menu2',
+        'my_sub_menu',
+    );
 }
 
-add_action('admin_menu','create_new_admin_menu');
+add_action('admin_menu','create_new_admin_menu',9999999);
 
 
 function my_menu_callback(){
@@ -66,3 +87,13 @@ function my_menu_callback(){
 </div>
    <?php
 }
+
+
+function my_sub_menu(){
+      ?>
+<div class="wrap">
+<h1>Ini Adalah Sub Menu</h1>
+</div>
+   <?php
+}
+
