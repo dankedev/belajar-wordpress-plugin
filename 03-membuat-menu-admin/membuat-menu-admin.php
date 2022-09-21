@@ -8,7 +8,7 @@
  * Requires PHP: 8.0
  * Author: Hadie Danker
  * Author URI: https://www.dankedev.com
-* License:           GPL v2 or later
+ * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Update URI:        https://example.com/my-plugin/
  * Text Domain:       dankedev
@@ -69,12 +69,14 @@ function create_new_admin_menu(){
 
     // add_dashboard_page($page_title:string,$menu_title:string,$capability:string,$menu_slug:string,$callback:callable,$position:integer|null )
     add_media_page(
-          'Menu Tambahan 1',
+      'Menu Tambahan 1',
        'subMenu',
        'manage_options',
        'my-sub-menu2',
         'my_sub_menu',
     );
+
+    
 }
 
 add_action('admin_menu','create_new_admin_menu',9999999);
