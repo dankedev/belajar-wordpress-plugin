@@ -17,141 +17,118 @@
 
  function create_new_admin_menu(){
   add_menu_page(
-        '04. Membuat Halaman Pengaturan',
+        'Membuat Halaman Pengaturan',
         'XMenu',
         'manage_options',
         'my-first-plugin',
-        'wporg_options_page_html',
+        'menu_options_page_html',
         plugin_dir_url(__FILE__) . 'robot.svg',
-        71
+        999999
     );
-
 
  }
 
  add_action('admin_menu','create_new_admin_menu',9999999);
 
 
- function wporg_settings_init() {
-	// Register a new setting for "wporg" page.
-	register_setting( 'wporg', 'wporg_options' );
 
-	// Register a new section in the "wporg" page.
-	add_settings_section(
-		'wporg_section_developers',
-		__( 'The Matrix has you.', 'wporg' ), 'wporg_section_developers_callback',
-		'wporg'
-	);
+function menu_options_page_html(){
 
-	// Register a new field in the "wporg_section_developers" section, inside the "wporg" page.
-	add_settings_field(
-		'wporg_field_pill', // As of WP 4.6 this value is used only internally.
-		                        // Use $args' label_for to populate the id inside the callback.
-			__( 'Pill', 'wporg' ),
-		'wporg_field_pill_cb',
-		'wporg',
-		'wporg_section_developers',
-		array(
-			'label_for'         => 'wporg_field_pill',
-			'class'             => 'wporg_row',
-			'wporg_custom_data' => 'custom',
-		)
-	);
-}
+    if(!current_user_can('manage_options' )){
+        return false;
+    }
+    ?>
+    <div class="wrap">
+        <h1><?php echo get_admin_page_title( );?></h1>
+        <form method="post" action="options.php">
+        <?php
+        settings_fields('belajar_plugin' );
 
-/**
- * Register our wporg_settings_init to the admin_init action hook.
- */
-add_action( 'admin_init', 'wporg_settings_init' );
+        do_settings_sections('belajar_plugin' );
 
+        submit_button('Simpan Kuy!!!')
+        ?>
 
-/**
- * Custom option and settings:
- *  - callback functions
- */
-
-
-/**
- * Developers section callback function.
- *
- * @param array $args  The settings array, defining title, id, callback.
- */
-function wporg_section_developers_callback( $args ) {
-	?>
-	<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Follow the white rabbit.', 'wporg' ); ?></p>
-	<?php
-}
-
-/**
- * Pill field callbakc function.
- *
- * WordPress has magic interaction with the following keys: label_for, class.
- * - the "label_for" key value is used for the "for" attribute of the <label>.
- * - the "class" key value is used for the "class" attribute of the <tr> containing the field.
- * Note: you can add custom key value pairs to be used inside your callbacks.
- *
- * @param array $args
- */
-function wporg_field_pill_cb( $args ) {
-	// Get the value of the setting we've registered with register_setting()
-	$options = get_option( 'wporg_options' );
-	?>
-	<select
-			id="<?php echo esc_attr( $args['label_for'] ); ?>"
-			data-custom="<?php echo esc_attr( $args['wporg_custom_data'] ); ?>"
-			name="wporg_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
-		<option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-			<?php esc_html_e( 'red pill', 'wporg' ); ?>
-		</option>
- 		<option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-			<?php esc_html_e( 'blue pill', 'wporg' ); ?>
-		</option>
-	</select>
-	<p class="description">
-		<?php esc_html_e( 'You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'wporg' ); ?>
-	</p>
-	<p class="description">
-		<?php esc_html_e( 'You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.', 'wporg' ); ?>
-	</p>
-	<?php
+        </form>
+    </div>
+    <?php
 }
 
 
+function create_admin_setting(){
 
-/**
- * Top level menu callback function
- */
-function wporg_options_page_html() {
-	// check user capabilities
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
+    register_setting('belajar_plugin','belajar_plugin_option');
+    // register_setting($option_group:string,$option_name:string,$args:array )
 
-	// add error/update messages
+    //add_settings_section($id:string,$title:string,$callback:callable,$page:string )
+    add_settings_section(
+        'belajar_plugin_setting_section',
+        'Pengaturan Plugin',
+        'plugin_setting_section_call_back',
+        'belajar_plugin');
 
-	// check if the user have submitted the settings
-	// WordPress will add the "settings-updated" $_GET parameter to the url
-	if ( isset( $_GET['settings-updated'] ) ) {
-		// add settings saved message with the class of "updated"
-		add_settings_error( 'wporg_messages', 'wporg_message', __( 'Settings Saved', 'wporg' ), 'updated' );
-	}
+        // add_settings_field($id:string,$title:string,$callback:callable,$page:string,$section:string,$args:array )
 
-	// show error/update messages
-	settings_errors( 'wporg_messages' );
-	?>
-	<div class="wrap">
-		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-		<form action="options.php" method="post">
-			<?php
-			// output security fields for the registered setting "wporg"
-			settings_fields( 'wporg' );
-			// output setting sections and their fields
-			// (sections are registered for "wporg", each field is registered to a specific section)
-			do_settings_sections( 'wporg' );
-			// output save settings button
-			submit_button( 'Save Settings' );
-			?>
-		</form>
-	</div>
-	<?php
+        add_settings_field(
+            'setting_field_id_1',
+            'Pilih Bahasa Pemograman',
+            'setting_field_call_back',
+            'belajar_plugin',
+            'belajar_plugin_setting_section',
+            array(
+                'label_for'=>'bahasa_pemograman',
+                'class'=> 'setting_field_row',
+                'options'=>array(
+        'javascript','php','html','css','go','kotlin'
+    )
+            )
+        );
+
+                add_settings_field(
+            'setting_field_id_2',
+            'Pilih Bahasa Pemograman',
+            'setting_field_call_back',
+            'belajar_plugin',
+            'belajar_plugin_setting_section',
+            array(
+                'label_for'=>'operating_system',
+                'class'=> 'setting_field_row',
+                'options'=>array(
+        'linux','macOs','windows'
+    )
+            )
+        );
+
+       
+}
+
+add_action('admin_init','create_admin_setting');
+
+
+function plugin_setting_section_call_back(){
+ echo 'Silahkan pilih bahasa pemograman yang Anda Suka';
+}
+
+function setting_field_call_back($args){
+    $options = get_option('belajar_plugin_option');
+    
+    $id = $args['label_for'];
+    $className = $args['class'];
+    $value = isset($options[$id ]) ? esc_attr($options[$id ] ) : null;
+
+    // var_dump($args['options']);
+
+ 
+    ?>
+    <select id="<?php echo $id;?>" name="belajar_plugin_option[<?php echo $id;?>]">
+    <option value>Pilih Bahasa</option>
+    <?php foreach ($args['options'] as $lang):
+    $selected = selected($value,$lang,false );
+echo '<option value="'.$lang.'" '.$selected.'>'.$lang.'</option>';
+    endforeach;
+    ?>
+</select>
+    <?php
+
+
 }
