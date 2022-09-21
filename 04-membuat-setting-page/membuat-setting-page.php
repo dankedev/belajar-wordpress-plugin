@@ -17,7 +17,7 @@
 
  function create_new_admin_menu(){
   add_menu_page(
-        'Membuat Halaman Pengaturan',
+        '4. Membuat Halaman Pengaturan',
         'XMenu',
         'manage_options',
         'my-first-plugin',
@@ -31,16 +31,12 @@
  add_action('admin_menu','create_new_admin_menu',9999999);
 
 
-
-function menu_options_page_html(){
-
-    if(!current_user_can('manage_options' )){
-        return false;
-    }
+ function menu_options_page_html(){
     ?>
-    <div class="wrap">
-        <h1><?php echo get_admin_page_title( );?></h1>
-        <form method="post" action="options.php">
+<div class="wrap">
+<h1><?php echo get_admin_page_title( );?></h1>
+
+<form method="post" action="options.php">
         <?php
         settings_fields('belajar_plugin' );
 
@@ -50,79 +46,62 @@ function menu_options_page_html(){
         ?>
 
         </form>
-    </div>
+
+</div>
     <?php
-}
+ }
 
 
-function create_admin_setting(){
-
-    register_setting('belajar_plugin','belajar_plugin_option');
-    // register_setting($option_group:string,$option_name:string,$args:array )
+ function create_my_plugin_setting(){
+    register_setting(
+        'belajar_plugin',
+        'belajar_plugin_option'
+    );
 
     //add_settings_section($id:string,$title:string,$callback:callable,$page:string )
     add_settings_section(
-        'belajar_plugin_setting_section',
-        'Pengaturan Plugin',
-        'plugin_setting_section_call_back',
-        'belajar_plugin');
+        'setting_section_1',
+        'Pilih Bahasa Pemograman',
+        'callback_plugin_setting_section',
+        'belajar_plugin'
+    );
 
-        // add_settings_field($id:string,$title:string,$callback:callable,$page:string,$section:string,$args:array )
+    // add_settings_field($id:string,$title:string,$callback:callable,$page:string,$section:string,$args:array )
+    
+    add_settings_field(
+        'setting_field_1',
+        'Pilih Salah Satu',
+        'callback_setting_fields',
+        'belajar_plugin',
+        'setting_section_1',
+        array(
+            'label_for'=>'bahasa_pemograman'
+        )
+    );
 
-        add_settings_field(
-            'setting_field_id_1',
-            'Pilih Bahasa Pemograman',
-            'setting_field_call_back',
-            'belajar_plugin',
-            'belajar_plugin_setting_section',
-            array(
-                'label_for'=>'bahasa_pemograman',
-                'class'=> 'setting_field_row',
-                'options'=>array(
-        'javascript','php','html','css','go','kotlin'
-    )
-            )
-        );
-
-                add_settings_field(
-            'setting_field_id_2',
-            'Pilih Bahasa Pemograman',
-            'setting_field_call_back',
-            'belajar_plugin',
-            'belajar_plugin_setting_section',
-            array(
-                'label_for'=>'operating_system',
-                'class'=> 'setting_field_row',
-                'options'=>array(
-        'linux','macOs','windows'
-    )
-            )
-        );
-
-       
-}
-
-add_action('admin_init','create_admin_setting');
+ }
 
 
-function plugin_setting_section_call_back(){
- echo 'Silahkan pilih bahasa pemograman yang Anda Suka';
-}
+ add_action('admin_init','create_my_plugin_setting');
 
-function setting_field_call_back($args){
+ function callback_plugin_setting_section(){
+    echo 'Ayo belajar pemograman';
+ }
+
+
+ function callback_setting_fields($args){
     $options = get_option('belajar_plugin_option');
     
     $id = $args['label_for'];
-    $className = $args['class'];
     $value = isset($options[$id ]) ? esc_attr($options[$id ] ) : null;
 
     // var_dump($args['options']);
 
- 
+ $languages = array('javascript','php','html','css','go','kotlin');
     ?>
     <select id="<?php echo $id;?>" name="belajar_plugin_option[<?php echo $id;?>]">
     <option value>Pilih Bahasa</option>
-    <?php foreach ($args['options'] as $lang):
+    <?php foreach ($languages as $lang):
     $selected = selected($value,$lang,false );
 echo '<option value="'.$lang.'" '.$selected.'>'.$lang.'</option>';
     endforeach;
