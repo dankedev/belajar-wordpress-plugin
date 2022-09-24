@@ -55,7 +55,7 @@ add_action('admin_menu', 'whatsapp_button_register_menu', 9999999);
 
 function whatsapp_button_setting_page()
 {
-   
+//    var_dump(get_option('my_whatsapp_option'));
 ?>
     <div class="wrap">
         <h1><?php echo get_admin_page_title(); ?></h1>
@@ -70,7 +70,6 @@ function whatsapp_button_setting_page()
 
         </form>
 
-        <button id="tombol-alert" class="btn btn-danger"> Add Alert</button>
 
     </div>
 <?php
@@ -234,6 +233,22 @@ function whatsapp_button_add_button_to_page(){
     $position = isset($options['position']) ? esc_attr($options['position']) :'right';
     $whatsapp_number = isset($options['whatsapp_number']) ? esc_attr($options['whatsapp_number']) :'';
     $whatsapp_button = isset($options['button']) ? esc_attr($options['button']) :'button-1';
+    $on_home = isset($options['home']) ? esc_attr($options['home']) : false;
+    $on_post = isset($options['post']) ? esc_attr($options['post']) : false;
+    $on_page = isset($options['page']) ? esc_attr($options['page']) : false;
+
+    if(is_single() && !$on_post){
+        return'';
+    }
+
+    if(is_page() && !$on_page){
+        return'';
+    }
+
+    if(is_home() && !$on_home){
+        return '';
+    }
+
  
     $url = 'https://wa.me/'.$whatsapp_number;
     $button = plugin_dir_url(__FILE__).'/assets/button/'. $whatsapp_button.'.png';
