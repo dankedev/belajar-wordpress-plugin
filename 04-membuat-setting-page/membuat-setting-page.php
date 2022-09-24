@@ -146,8 +146,6 @@ add_action('admin_enqueue_scripts','register_external_style');
  * @return void
  */
 function add_my_plugin_style(){
-    global $current_screen;
-    var_dump(json_encode($current_screen));
     wp_enqueue_style('my-plugin-style',plugin_dir_url(__FILE__).'/assets/css/plugin-style.css',array('bootstrap-roboto','font-roboto'));
 }
 add_action('admin_enqueue_scripts','add_my_plugin_style');
