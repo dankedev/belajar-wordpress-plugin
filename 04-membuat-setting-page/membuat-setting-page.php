@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: 04. Membuat Halaman Pengaturan
  * Plugin URI: https://dankedev.com/plugins/plugin-saya
@@ -59,7 +58,7 @@ function menu_options_page_html()
 
         </form>
 
-        <button id="tombol-alert" class="btn btn-danger"> Add Alert</button>
+        <button id="tombol-alert" class="btn btn-success">Add Alert Ajah</button>
 
     </div>
 <?php
@@ -132,27 +131,61 @@ function setting_field_call_back($args)
 }
 
 
-function register_external_style(){
-    wp_register_style('font-roboto','//fonts.googleapis.com/css?family=Roboto',array(),'1.0','all');
-    wp_register_style('bootstrap-roboto','//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css');
+/**
+ * Belajar Styling Halaman Admin
+ * 1. Menggunakan inline Style
+ * 2. Menggunakan style dari sumber luar
+ * 3. Menggunakan Style dari sumber Internal
+ * 4. Menambahkan javascript
+ * 
+
+ Referensi :
+ https://developer.wordpress.org/reference/hooks/admin_print_styles/
+ https://developer.wordpress.org/reference/functions/wp_enqueue_style/
+ https://developer.wordpress.org/reference/functions/wp_enqueue_script/
+ */
+
+
+
+function add_inline_styling_to_my_plugin(){
+    ?>
+    <style>
+ .wrap h1{
+    color: red;
+    font-family: 'Pacifico', cursive;
+   font-size: 4rem!important;
+ }
+    </style>
+    <?php
 }
 
-add_action('admin_enqueue_scripts','register_external_style');
+//add_action('admin_print_styles','add_inline_styling_to_my_plugin');
+
+function add_css_style(){
+
+    /**
+     * Google Font
+     */
+    wp_enqueue_style('my-google-font','https://fonts.googleapis.com/css2?family=Pacifico&display=swap',array());
 
 
 /**
- * Add internal Plugin Style
- *
- * @return void
+ * Boostrap
  */
-function add_my_plugin_style(){
-    wp_enqueue_style('my-plugin-style',plugin_dir_url(__FILE__).'/assets/css/plugin-style.css',array('bootstrap-roboto','font-roboto'));
-}
-add_action('admin_enqueue_scripts','add_my_plugin_style');
+    wp_enqueue_style('my-boostrap','https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css',array());
 
-function add_my_plugin_script_js(){
-    wp_enqueue_script('my-plugin-script',plugin_dir_url(__FILE__).'/assets/js/plugin-app.js',array('jquery'),'1.0',true);
-}
-add_action('admin_enqueue_scripts','add_my_plugin_script_js')
+    /**
+     * Internal File CSS
+     */
 
+    wp_enqueue_style('my-my-css', plugin_dir_url(__FILE__).'/assets/css/plugin-style.css',array(),'1.0.1');
+   
+    
+    /**
+     * Internal File Javascript
+     */
+    wp_enqueue_script('my-my-css', plugin_dir_url(__FILE__).'/assets/js/plugin-app.js',array('jquery'),'1.0.1');
+}
+
+add_action('admin_enqueue_scripts','add_css_style');
 ?>

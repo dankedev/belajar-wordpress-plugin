@@ -1,0 +1,31 @@
+{
+  "files.exclude": {
+    "*.DS_Store": true,
+    "*.DS_Store.*": true,
+    "*.git": true,
+    "*.git.*": true,
+    "*.gitignore": true,
+    "*.gitignore.*": true,
+    "*.vscode": true,
+    "*.vscode.*": true,
+    "*01-belajar-hooks": true,
+    "*01-belajar-hooks.*": true,
+    "*02-membuat-file-plugin-wordpress": true,
+    "*02-membuat-file-plugin-wordpress.*": true,
+    "*03-membuat-menu-admin": true,
+    "*03-membuat-menu-admin.*": true,
+    "*04-membuat-setting-page": true,
+    "*04-membuat-setting-page.*": true,
+    "*05-my-whatsapp-button.*": true,
+    "*README": true,
+    "*README.*": true,
+    "*best-practice": true,
+    "*best-practice.*": true,
+    "*classic-editor": true,
+    "*classic-editor.*": true,
+    "*mailtrap-for-wp": true,
+    "*mailtrap-for-wp.*": true,
+    "*test": true,
+    "*test.*": true
+  }
+}
