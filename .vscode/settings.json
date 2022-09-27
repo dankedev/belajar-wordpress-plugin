@@ -26,6 +26,7 @@
     "*mailtrap-for-wp": true,
     "*mailtrap-for-wp.*": true,
     "*test": true,
-    "*test.*": true
+    "*test.*": true,
+    "05-my-whatsapp-button": true
   }
 }

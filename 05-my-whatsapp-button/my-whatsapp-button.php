@@ -12,7 +12,7 @@
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Update URI: https://example.com/my-plugin/
- * Text Domain:whatsapp-button
+ * Text Domain: whatsapp-button
  * Domain Path:/languages
  */
 
@@ -21,7 +21,6 @@
     1. Membuat halaman admin
     2. Membuat setting page 
         - Nomor WhatsApp
-        - Pesan Pembuka
         - Pilihan Icon
         - Posisi tombol
     3. Menampilkan tombol WhatsApp
@@ -33,12 +32,6 @@
     4. Mengulang pembelajaran sebelumnya dengan cara praktek
  */
 
-
-/**
- * Mendaftarkan Halaman Admin
- *
- * @return void
- */
 function whatsapp_button_register_menu()
 {
     // add_menu_page(
@@ -51,6 +44,7 @@ function whatsapp_button_register_menu()
     //     999999
     // );
 
+
     add_options_page(
         __('Pengaturan Tombol WhatsApp', 'whatsapp-button'),
         __('Tombol WhatsApp', 'whatsapp-button'),
@@ -58,7 +52,6 @@ function whatsapp_button_register_menu()
         'plugin-tombol-whatsapp',
         'whatsapp_button_setting_page',
         100
-
     );
 }
 
@@ -66,7 +59,6 @@ add_action('admin_menu', 'whatsapp_button_register_menu', 9999999);
 
 function whatsapp_button_setting_page()
 {
-    //    var_dump(get_option('my_whatsapp_option'));
 ?>
     <div class="wrap">
         <h1><?php echo get_admin_page_title(); ?></h1>
@@ -86,6 +78,12 @@ function whatsapp_button_setting_page()
 <?php
 }
 
+
+/**
+ * Register Setting
+ *
+ * @return void
+ */
 function whatsapp_button_register_setting()
 {
     register_setting('whatsapp_plugin_setting', 'my_whatsapp_option');
@@ -93,9 +91,10 @@ function whatsapp_button_register_setting()
     add_settings_section(
         'whasapp_button_plugin_setting_section',
         'Pengaturan Tombol WhatsApp',
-        'whatsapp_button_section_call_back',
+        null,
         'whatsapp_plugin_setting'
     );
+
 
     $settings = array(
         array(
@@ -132,6 +131,7 @@ function whatsapp_button_register_setting()
                 )
             )
         ),
+
         array(
             'id' => 'activated_on_post',
             'title' => __('Aktifkan di Halaman Post', 'whatsapp-button'),
@@ -168,25 +168,32 @@ function whatsapp_button_register_setting()
             $setting['arguments']
         );
     }
+
+    // add_settings_field(
+    //     'setting_field_id_1',
+    //     'Pilih Bahasa Pemograman',
+    //     'setting_field_call_back',
+    //     'belajar_plugin',
+    //     'whasapp_button_plugin_setting_section',
+    //     array(
+    //         'label_for' => 'bahasa_pemogragaman',
+    //         'options' => array(
+    //             'javascript', 'php', 'html', 'css', 'go', 'kotlin'
+    //         )
+    //     )
+    // );
 }
 
 add_action('admin_init', 'whatsapp_button_register_setting');
 
 
-function whatsapp_button_section_call_back()
-{
-    echo sprintf('<p>%s</p>', 'lengkapi data-data dibawah ini');
-}
-
 function whatsapp_button_setting_field_callback($args)
 {
     $options = get_option('my_whatsapp_option');
 
-    $id = $args['label_for'];
+    $id = esc_attr($args['label_for']);
     $value = isset($options[$id]) ? esc_attr($options[$id]) : null;
-    // var_dump($value)
     $type = isset($args['type']) ? esc_attr($args['type']) : 'input';
-
 
     if ($type === 'select') {
         whatsapp_button_field_select($options, $args);
@@ -195,6 +202,28 @@ function whatsapp_button_setting_field_callback($args)
     } else {
         whatsapp_button_field_input($options, $args);
     }
+}
+
+function whatsapp_button_field_input($options, $args)
+{
+    $id = esc_attr($args['label_for']);
+    $value = isset($options[$id]) ? esc_attr($options[$id]) : null;
+
+
+    echo sprintf(
+        '<input type="text" id="%1$s" name="my_whatsapp_option[%1$s]" value="%2$s"/>',
+        $id,
+        $value
+    );
+}
+
+function whatsapp_button_field_checkbox($options, $args)
+{
+
+    $id = esc_attr($args['label_for']);
+    $value = isset($options[$id]) ? esc_attr($options[$id]) : null;
+    $checked = checked($value, 'on', false);
+    echo sprintf('<input type="checkbox" id="%1$s" name="my_whatsapp_option[%1$s]" %2$s/>', $id, $checked);
 }
 
 function whatsapp_button_field_select($options, $args)
@@ -206,51 +235,39 @@ function whatsapp_button_field_select($options, $args)
     <select id="<?php echo $id ?>" name="my_whatsapp_option[<?php echo $id; ?>]">
         <?php
         foreach ($args['options']  as $key => $label) {
-            // selected($selected:mixed,$current:mixed,$echo:boolean )
             $selected = selected($value, $key, false);
-            echo '<option value="' . $key . '" ' . $selected . '>' . $label . '</option>';
+
+            echo '<option value="' . $key . '" ' . $selected . '>
+						' . $label .
+                '</option>';
         }
         ?>
     </select>
 <?php
 }
 
-function whatsapp_button_field_input($options, $args)
-{
-    $id = $args['label_for'];
-    $value = isset($options[$id]) ? esc_attr($options[$id]) : '';
-
-    echo sprintf('<input type="text" id="%1$s" name="my_whatsapp_option[%1$s]" value="%2$s"/>', $id, $value);
-}
-
-function whatsapp_button_field_checkbox($options, $args)
-{
-    $id = $args['label_for'];
-    $value = isset($options[$id]) ? esc_attr($options[$id]) : false;
-
-    $checked = checked($value, 'on', false);
-    // var_dump($value);
-    echo sprintf('<input type="checkbox" id="%1$s" name="my_whatsapp_option[%1$s]" %2$s/>', $id, $checked);
-}
-
-
-function whatsapp_button_enqueue_style()
-{
-    wp_enqueue_style('whatsapp-button', plugin_dir_url(__FILE__) . '/assets/whatsapp-button.css', array(), '1.0', 'all');
-}
-
-add_action('wp_enqueue_scripts', 'whatsapp_button_enqueue_style');
-
-
 function whatsapp_button_add_button_to_page()
 {
     $options = get_option('my_whatsapp_option');
+
+
     $position = isset($options['position']) ? esc_attr($options['position']) : 'right';
-    $whatsapp_number = isset($options['whatsapp_number']) ? esc_attr($options['whatsapp_number']) : '';
-    $whatsapp_button = isset($options['button']) ? esc_attr($options['button']) : 'button-1';
+
+    $whatsapp_number  = isset($options['whatsapp_number']) ? esc_attr($options['whatsapp_number']) : '';
+
+    $whatsapp_button = isset($options['button']) ? esc_attr($options['button']) : 'button-2.png';
+
+
     $on_home = isset($options['home']) ? esc_attr($options['home']) : false;
+
     $on_post = isset($options['post']) ? esc_attr($options['post']) : false;
+
     $on_page = isset($options['page']) ? esc_attr($options['page']) : false;
+
+
+    if (is_home() && !$on_home) {
+        return '';
+    }
 
     if (is_single() && !$on_post) {
         return '';
@@ -260,20 +277,23 @@ function whatsapp_button_add_button_to_page()
         return '';
     }
 
-    if (is_home() && !$on_home) {
-        return '';
-    }
-
-
     $url = 'https://wa.me/' . $whatsapp_number;
+
     $button = plugin_dir_url(__FILE__) . '/assets/button/' . $whatsapp_button . '.png';
 
-    echo sprintf(
-        '<div class="whatsapp-button whatsapp-button-%s"><a href="%s" target="_blank"><img src="%s" height="60"/></a></div>',
-        $position,
-        $url,
-        $button
-    );
+
+    echo sprintf('<div class="whatsapp-button whatsapp-button-%s">
+    <a href="%s">
+        <img src="%s" width="60" height="60"/>
+    </a>
+    </div>', $position, $url, $button);
+}
+add_action('wp_footer', 'whatsapp_button_add_button_to_page');
+
+
+function whatsapp_button_enqueue_style()
+{
+    wp_enqueue_style('whatsapp-button', plugin_dir_url(__FILE__) . 'assets/whatsapp-button.css', array(), time(), 'all');
 }
 
-add_action('wp_footer', 'whatsapp_button_add_button_to_page');
+add_action('wp_enqueue_scripts', 'whatsapp_button_enqueue_style');
