@@ -6,7 +6,9 @@ function wp_post_reaction_insert_to_post($content)
     $options = get_option('wp_post_reaction_data');
 
     $position =  isset($options['position']) ? esc_attr($options['position']) : 'bottom';
-    if (is_singular()) {
+    $display_on = isset($options['display_on']) ? $options['display_on'] : array();
+
+    if (!empty($display_on) && is_singular($display_on)) {
         if ('top' === $position) {
             return wp_post_reaction_html() . $content;
         } else {
@@ -21,10 +23,15 @@ add_filter('the_content', 'wp_post_reaction_insert_to_post', 10000);
 
 function wp_post_reaction_html()
 {
-    $reactions = wp_post_reaction_get_all_reaction_button();
+
 
     $options = get_option('wp_post_reaction_data');
-    $values = isset($options['reaction_buttons']) ? $options['reaction_buttons'] : $reactions;
+    if (!$options) {
+        $reactions = wp_post_reaction_get_all_reaction_button();
+    } else {
+        $reactions = isset($options['reaction_buttons']) ? $options['reaction_buttons'] : array();
+    }
+
 
 
 
@@ -46,12 +53,11 @@ function wp_post_reaction_html()
     $total = 0;
 
 
-    foreach ($values as $reaction) {
+    foreach ($reactions as $reaction) {
         $emoji = wp_sprintf('%s/assets/emoji/%s.svg', WP_POST_REACTION_PLUGIN_URL, $reaction);
         $is_selected =   $selected === $reaction ? 'has-clicked' : '';
         $html .= wp_sprintf('<div class="wp-post-reaction-button %s" data-reaction="%s">', $is_selected, $reaction,);
         $html .= wp_sprintf('<img src="%s" alt="%s" width="%s" height=""/>', $emoji, $reaction, $size);
-        $html .= wp_sprintf('<span class="wp-post-reaction-count">%d</span>', $total);
         $html .= wp_sprintf('<span class="wp-post-reaction-label">%s</span>', $reaction);
         $html .= '</div>';
     }

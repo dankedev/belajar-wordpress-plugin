@@ -6,11 +6,13 @@ jQuery(function ($) {
       if ($(this).hasClass("has-clicked")) {
         return;
       }
+      let thus = $(this);
 
-      let container = $(this).parents(".wp-post-reaction-container");
+      thus.addClass("on-selecting");
+      let container = thus.parents(".wp-post-reaction-container");
       let nonce = container.attr("data-nonce");
       let post_id = container.attr("data-post-id");
-      let reaction = $(this).attr("data-reaction");
+      let reaction = thus.attr("data-reaction");
 
       $.ajax({
         url: wp_post_reaction.ajaxurl,
@@ -22,6 +24,14 @@ jQuery(function ($) {
           _token: nonce,
           post_id: post_id,
         },
+      }).done(function (response) {
+        if (response.success) {
+          let data = response.data;
+          container
+            .children(".wp-post-reaction-button")
+            .removeClass("has-clicked");
+          thus.removeClass("on-selecting").addClass("has-clicked");
+        }
       });
     });
   });

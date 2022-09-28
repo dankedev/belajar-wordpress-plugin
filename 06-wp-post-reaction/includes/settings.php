@@ -4,7 +4,6 @@ function wp_post_reaction_register_setting()
 {
     register_setting('wp_post_reaction_setting', 'wp_post_reaction_data');
 
-    $values = get_option('wp_post_reaction_data');
 
     add_settings_section(
         'wp_post_reaction_setting_section',
@@ -120,7 +119,8 @@ function wp_post_reaction_setting_display_on($options)
 {
 
     $id = 'display_on';
-    $values = isset($options[$id]) ? $options[$id] : array('post', 'page');
+
+    $values = isset($options[$id]) ? $options[$id] :  array();
 
     $displays = apply_filters('wp_post_reaction_post_type', array(
         'post' => __('Singe Post Page', 'wp-post-reaction'),
@@ -170,7 +170,7 @@ function wp_post_reaction_setting_radio($data, $for = null, $options = array(), 
 function wp_post_reaction_setting_reaction_buttons($options)
 {
     $reactions = wp_post_reaction_get_all_reaction_button();
-    $values = isset($options['reaction_buttons']) ? $options['reaction_buttons'] : $reactions;
+    $values = isset($options['reaction_buttons']) ? $options['reaction_buttons'] : array();
 
     $output = '<div class="select-reaction-button">';
     foreach ($reactions as $reaction) {

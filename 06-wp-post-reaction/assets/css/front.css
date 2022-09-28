@@ -33,7 +33,7 @@
   filter: grayscale(0);
 }
 
-.wp-post-reaction-label,.wp-post-reaction-count{
+.wp-post-reaction-label{
     font-weight: bold;
     line-height: 12px;
     font-size: 10px;
@@ -49,9 +49,6 @@
     text-align: center;
 }
 
-.wp-post-reaction-count{
-    opacity: 1;
-}
 .wp-post-reaction-label {
   opacity: 0;
   text-transform: uppercase;
@@ -61,6 +58,28 @@
     opacity: 1;
 }
 
-.wp-post-reaction-button:hover .wp-post-reaction-count{
-    opacity: 0;
+
+
+.on-selecting {
+	transform-origin: top center;
+	animation: swing 2ms ease infinite;
+  transform: scale(2.5);
 }
+@keyframes swing {
+	20% {
+		transform: rotate(15deg);
+	}
+	40% {
+		transform: rotate(-10deg);
+	}
+	60% {
+		transform: rotate(5deg);
+	}
+	80% {
+		transform: rotate(-5deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+

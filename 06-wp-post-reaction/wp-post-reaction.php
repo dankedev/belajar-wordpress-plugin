@@ -120,4 +120,4 @@ function wp_post_reaction_uninstall()
 }
 
 // register_uninstall_hook(__FILE__, 'wp_post_reaction_uninstall');
-register_deactivation_hook(__FILE__, 'wp_post_reaction_uninstall');
+//register_deactivation_hook(__FILE__, 'wp_post_reaction_uninstall');
