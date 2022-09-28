@@ -4,7 +4,6 @@
     "*.DS_Store.*": true,
     "*.git": true,
     "*.git.*": true,
-    "*.gitignore": true,
     "*.gitignore.*": true,
     "*.vscode": true,
     "*.vscode.*": true,
@@ -25,6 +24,7 @@
     "*test": true,
     "*test.*": true,
     "simply-show-hooks": true,
-    "05-my-whatsapp-button": true
+    "05-my-whatsapp-button": true,
+    ".gitignore": true
   }
 }
