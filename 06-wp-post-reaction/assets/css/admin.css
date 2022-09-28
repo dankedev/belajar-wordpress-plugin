@@ -1,0 +1,15 @@
+.select-reaction-button{
+    display: flex;
+    gap:20px;
+}
+.select-reaction-button > div > label{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    padding:3px 6px;
+    align-items: center;
+    justify-content: center;
+}
+.select-reaction-button > div > label > * {
+    display: block;
+}

@@ -15,9 +15,6 @@
     "*03-membuat-menu-admin": true,
     "*03-membuat-menu-admin.*": true,
     "*04-membuat-setting-page": true,
-    "*04-membuat-setting-page.*": true,
-    "*05-my-whatsapp-button.*": true,
-    "*README": true,
     "*README.*": true,
     "*best-practice": true,
     "*best-practice.*": true,
@@ -27,6 +24,7 @@
     "*mailtrap-for-wp.*": true,
     "*test": true,
     "*test.*": true,
+    "simply-show-hooks": true,
     "05-my-whatsapp-button": true
   }
 }

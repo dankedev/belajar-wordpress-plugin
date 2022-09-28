@@ -1,0 +1,66 @@
+.wp-post-reaction-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.wp-post-reaction-left {
+  justify-content: flex-start;
+}
+.wp-post-reaction-center {
+  justify-content: center;
+}
+
+.wp-post-reaction-right {
+  justify-content: flex-end;
+}
+.wp-post-reaction-button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.wp-post-reaction-button img {
+  transition: all 0.2s ease-in-out;
+  filter: grayscale(20%);
+
+}
+.wp-post-reaction-button.has-clicked img,
+.wp-post-reaction-button:hover img {
+  transform: scale(1.5);
+  filter: grayscale(0);
+}
+
+.wp-post-reaction-label,.wp-post-reaction-count{
+    font-weight: bold;
+    line-height: 12px;
+    font-size: 10px;
+    white-space: normal;
+    word-break: break-all;
+    display: inline-block;
+    margin-top: 6px;
+   transition: opacity 0.2s ease-in-out;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.wp-post-reaction-count{
+    opacity: 1;
+}
+.wp-post-reaction-label {
+  opacity: 0;
+  text-transform: uppercase;
+}
+
+.wp-post-reaction-button:hover .wp-post-reaction-label{
+    opacity: 1;
+}
+
+.wp-post-reaction-button:hover .wp-post-reaction-count{
+    opacity: 0;
+}

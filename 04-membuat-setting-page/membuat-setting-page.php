@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: 04. Membuat Halaman Pengaturan
  * Plugin URI: https://dankedev.com/plugins/plugin-saya
@@ -105,7 +106,7 @@ function create_admin_setting()
 
 function plugin_setting_section_call_back()
 {
-    echo sprintf('<p>%s</p>','Penjelasan apa yang harus dilakukan dengan pengaturan disini.');
+    echo wp_sprintf('<p>%s</p>', 'Penjelasan apa yang harus dilakukan dengan pengaturan disini.');
 }
 
 
@@ -147,45 +148,47 @@ function setting_field_call_back($args)
 
 
 
-function add_inline_styling_to_my_plugin(){
-    ?>
+function add_inline_styling_to_my_plugin()
+{
+?>
     <style>
- .wrap h1{
-    color: red;
-    font-family: 'Pacifico', cursive;
-   font-size: 4rem!important;
- }
+        .wrap h1 {
+            color: red;
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem !important;
+        }
     </style>
-    <?php
+<?php
 }
 
 //add_action('admin_print_styles','add_inline_styling_to_my_plugin');
 
-function add_css_style(){
+function add_css_style()
+{
 
     /**
      * Google Font
      */
-    wp_enqueue_style('my-google-font','https://fonts.googleapis.com/css2?family=Pacifico&display=swap',array());
+    wp_enqueue_style('my-google-font', 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap', array());
 
 
-/**
- * Boostrap
- */
-    wp_enqueue_style('my-boostrap','https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css',array());
+    /**
+     * Boostrap
+     */
+    wp_enqueue_style('my-boostrap', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css', array());
 
     /**
      * Internal File CSS
      */
 
-    wp_enqueue_style('my-my-css', plugin_dir_url(__FILE__).'/assets/css/plugin-style.css',array(),'1.0.1');
-   
-    
+    wp_enqueue_style('my-my-css', plugin_dir_url(__FILE__) . '/assets/css/plugin-style.css', array(), '1.0.1');
+
+
     /**
      * Internal File Javascript
      */
-    wp_enqueue_script('my-my-css', plugin_dir_url(__FILE__).'/assets/js/plugin-app.js',array('jquery'),'1.0.1');
+    wp_enqueue_script('my-my-css', plugin_dir_url(__FILE__) . '/assets/js/plugin-app.js', array('jquery'), '1.0.1');
 }
 
-add_action('admin_enqueue_scripts','add_css_style');
+add_action('admin_enqueue_scripts', 'add_css_style');
 ?>

@@ -210,7 +210,7 @@ function whatsapp_button_field_input($options, $args)
     $value = isset($options[$id]) ? esc_attr($options[$id]) : null;
 
 
-    echo sprintf(
+    echo wp_sprintf(
         '<input type="text" id="%1$s" name="my_whatsapp_option[%1$s]" value="%2$s"/>',
         $id,
         $value
@@ -223,7 +223,7 @@ function whatsapp_button_field_checkbox($options, $args)
     $id = esc_attr($args['label_for']);
     $value = isset($options[$id]) ? esc_attr($options[$id]) : null;
     $checked = checked($value, 'on', false);
-    echo sprintf('<input type="checkbox" id="%1$s" name="my_whatsapp_option[%1$s]" %2$s/>', $id, $checked);
+    echo wp_sprintf('<input type="checkbox" id="%1$s" name="my_whatsapp_option[%1$s]" %2$s/>', $id, $checked);
 }
 
 function whatsapp_button_field_select($options, $args)
@@ -282,7 +282,7 @@ function whatsapp_button_add_button_to_page()
     $button = plugin_dir_url(__FILE__) . '/assets/button/' . $whatsapp_button . '.png';
 
 
-    echo sprintf('<div class="whatsapp-button whatsapp-button-%s">
+    echo wp_sprintf('<div class="whatsapp-button whatsapp-button-%s">
     <a href="%s">
         <img src="%s" width="60" height="60"/>
     </a>
