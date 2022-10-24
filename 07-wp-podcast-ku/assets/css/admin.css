@@ -1,0 +1,24 @@
+.d-input-radio-wrap {
+  margin: 15px 0;
+  display: flex;
+  gap: 20px;
+}
+
+.wp-podcast-file-upload-input {
+  margin: 15px 0;
+  display: flex;
+  gap: 15px;
+}
+
+.wp-podcast-file-upload-input input {
+  flex-grow: 1;
+}
+
+/* .mejs-button.mejs-playpause-button.mejs-play button {
+  display: none;
+} */
+
+#wp-podcast-preview audio,
+#wp-podcast-preview .mejs-container {
+  width: 100% !important;
+}

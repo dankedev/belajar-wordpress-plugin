@@ -1,0 +1,82 @@
+#wp-podcast-player-wrapper {
+  display: flex;
+  gap: 20px;
+  background-color: aliceblue;
+}
+
+.wp-podcast-player-content {
+  width: 100%;
+  padding: 6px 10px;
+}
+.wp-podcast-player-cover {
+  width: 200px;
+  height: auto;
+}
+h2.wp-podcast-player-hader {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+.wp-podcast-player-cover img {
+  max-width: 100%;
+}
+
+.wp-podcast-player-container .mejs-container,
+.wp-podcast-player-container .mejs-container .mejs-controls,
+.wp-podcast-player-container .mejs-embed,
+.mejs-embed body {
+  background-color: transparent;
+  padding: 0;
+}
+
+.wp-podcast-player-container .mejs-time {
+  color: rebeccapurple;
+}
+
+.wp-podcast-player-container .mejs-container {
+  width: 100% !important;
+}
+
+.wp-podcast-player-container .mejs-button {
+  border-radius: 100%;
+}
+
+#wp-podcast-preview
+  .mejs-controls
+  .mejs-horizontal-volume-slider
+  .mejs-horizontal-volume-total,
+.wp-podcast-player-container .mejs-controls .mejs-time-rail .mejs-time-total,
+.wp-podcast-player-container .mejs-controls .mejs-time-rail .mejs-time-loaded {
+  background-color: rgba(46, 32, 113, 0.33);
+}
+
+.wp-podcast-player-container .mejs-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+}
+#wp-podcast-preview
+  .mejs-controls
+  .mejs-horizontal-volume-slider
+  .mejs-horizontal-volume-current,
+.wp-podcast-player-container .mejs-button,
+.wp-podcast-player-container .mejs-controls .mejs-time-rail .mejs-time-current,
+#wp-postcast-preview
+  .mejs-controls
+  .mejs-horizontal-volume-slider
+  .mejs-horizontal-volume-current {
+  background-color: rebeccapurple;
+}
+
+.wp-podcast-terms {
+  display: flex;
+  gap: 16;
+  font-size: small;
+  margin-bottom: 7px;
+}
+
+.wp-podcast-terms a {
+  text-decoration: none;
+}
