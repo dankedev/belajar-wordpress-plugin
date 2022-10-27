@@ -1,19 +1,18 @@
 <?php
 
 if (is_admin()) {
-    add_action('load-post.php',     'wp_podcast_ku_init_metabox');
+    add_action('load-post.php', 'wp_podcast_ku_init_metabox');
     add_action('load-post-new.php', 'wp_podcast_ku_init_metabox');
 }
 
 function wp_podcast_ku_init_metabox()
 {
     add_action('add_meta_boxes_podcast', 'wp_podcast_ku_create_meta_box', 10, 1);
-    add_action('save_post',      'wp_podcast_ku_save_meta_box', 10, 1);
+    add_action('save_post', 'wp_podcast_ku_save_meta_box', 10, 1);
 }
 
 function wp_podcast_ku_create_meta_box(\WP_Post $post)
 {
-
     $title = 'Podcast Episode Details';
     add_meta_box(
         sanitize_title($title),
@@ -55,7 +54,6 @@ function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
 
     $output .= '<div class="d-input-radio-wrap">';
     foreach ($types as $type) {
-
         $output .= wp_sprintf(
             '<label for="%1$s"><input id="%1$s-post-type" type="radio"  name="%1$s[podcast_type]" value="%2$s" %3$s/><span>%4$s</span></label>',
             $key_type,
@@ -85,7 +83,7 @@ function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
 
 function wp_podcast_ku_preview()
 {
-?>
+    ?>
     <audio controls>
         <source src="horse.ogg" type="audio/ogg">
         <source src="horse.mp3" type="audio/mpeg">
