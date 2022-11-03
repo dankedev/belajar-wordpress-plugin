@@ -20,9 +20,12 @@ function wp_podcast_ku_create_meta_box(\WP_Post $post)
         'wp_podcast_ku_create_meta_box_callback',
         'podcast',
         'normal', //'normal', 'side', 'advanced'
-        'high' //'high', 'core', 'default', or 'low'. Default 'default'
+        'high', //'high', 'core', 'default', or 'low'. Default 'default'
+        array('kurang')
     );
 }
+
+
 
 function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
 {
@@ -32,19 +35,18 @@ function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
     $data = get_post_meta($post_id, $key_type, true);
     $data = $data ?? array();
 
-
     $types = array(
         array(
-            'label' => 'Audio URL',
-            'key' => 'audio'
+            'label' => 'Member Only',
+            'key' => 'member'
         ),
         array(
-            'label' => 'Embed',
-            'key' => 'embed'
+            'label' => 'Public',
+            'key' => 'public'
         ),
     );
     $podcast_url = isset($data['podcast_url']) ? esc_url($data['podcast_url']) : null;
-    $podcast_type = isset($data['podcast_type']) ? esc_attr($data['podcast_type']) : null;
+    $podcast_access = isset($data['podcast_access']) ? esc_attr($data['podcast_access']) : null;
 
 
 
@@ -55,10 +57,10 @@ function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
     $output .= '<div class="d-input-radio-wrap">';
     foreach ($types as $type) {
         $output .= wp_sprintf(
-            '<label for="%1$s"><input id="%1$s-post-type" type="radio"  name="%1$s[podcast_type]" value="%2$s" %3$s/><span>%4$s</span></label>',
+            '<label for="%1$s"><input id="%1$s-post-type" type="radio"  name="%1$s[podcast_access]" value="%2$s" %3$s/><span>%4$s</span></label>',
             $key_type,
             esc_attr($type['key']),
-            checked($podcast_type, $type['key'], false),
+            checked($podcast_access, $type['key'], false),
             $type['label']
         );
     }
@@ -81,16 +83,6 @@ function wp_podcast_ku_create_meta_box_callback(\WP_Post $post)
 }
 
 
-function wp_podcast_ku_preview()
-{
-    ?>
-    <audio controls>
-        <source src="horse.ogg" type="audio/ogg">
-        <source src="horse.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-<?php
-}
 
 function wp_podcast_ku_save_meta_box($post_id)
 {
@@ -103,11 +95,11 @@ function wp_podcast_ku_save_meta_box($post_id)
         if ($is_valid_request) {
             $data = $_POST['wp_podcast_ku'];
             $podcast_url = isset($data['podcast_url']) ? esc_url($data['podcast_url']) : null;
-            $podcast_type = isset($data['podcast_type']) ? esc_attr($data['podcast_type']) : null;
+            $podcast_access = isset($data['podcast_access']) ? esc_attr($data['podcast_access']) : null;
 
             update_post_meta($post_id, 'wp_podcast_ku', array(
                 'podcast_url' => $podcast_url,
-                'podcast_type' => $podcast_type
+                'podcast_access' => $podcast_access
             ));
         }
     }

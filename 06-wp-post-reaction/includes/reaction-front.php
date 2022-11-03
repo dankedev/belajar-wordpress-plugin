@@ -23,8 +23,6 @@ add_filter('the_content', 'wp_post_reaction_insert_to_post', 10000);
 
 function wp_post_reaction_html()
 {
-
-
     $options = get_option('wp_post_reaction_data');
     if (!$options) {
         $reactions = wp_post_reaction_get_all_reaction_button();
@@ -56,7 +54,7 @@ function wp_post_reaction_html()
     foreach ($reactions as $reaction) {
         $emoji = wp_sprintf('%s/assets/emoji/%s.svg', WP_POST_REACTION_PLUGIN_URL, $reaction);
         $is_selected =   $selected === $reaction ? 'has-clicked' : '';
-        $html .= wp_sprintf('<div class="wp-post-reaction-button %s" data-reaction="%s">', $is_selected, $reaction,);
+        $html .= wp_sprintf('<div class="wp-post-reaction-button %s" data-reaction="%s">', $is_selected, $reaction, );
         $html .= wp_sprintf('<img src="%s" alt="%s" width="%s" height=""/>', $emoji, $reaction, $size);
         $html .= wp_sprintf('<span class="wp-post-reaction-label">%s</span>', $reaction);
         $html .= '</div>';
@@ -134,11 +132,24 @@ function wp_post_reaction_front_end_style()
 add_action('wp_enqueue_scripts', 'wp_post_reaction_front_end_style');
 
 
+/**
+ *
+ *
+ * {
+ * success: false,
+ * data:{
+ *  message:'not allowed
+ * }
+ * }
+ */
+
+
 function wp_post_reaction_make_reaction()
 {
     global $wpdb;
 
     //$token = isset($_POST['_token']) ? sanitize_text_field($_POST['_token']) : null;
+    //wp_nonce
     $is_valid_request = check_ajax_referer('wp_post_reaction_none', '_token', false);
 
     if (!$is_valid_request) {
@@ -171,7 +182,6 @@ function wp_post_reaction_make_reaction()
 
 
     if (!is_null($reactor_id) && $is_already_reacted != 0) {
-
         $response['action'] = 'update';
         $response['status'] = $wpdb->update($table_name, $data_to_input, ['reactor_id' => $reactor_id, 'post_id' => $post_id]) > 0
             ? 'success'
@@ -191,7 +201,9 @@ function wp_post_reaction_make_reaction()
     if ($response['status'] == 'error') {
         $response['error_message'] = $wpdb->last_error;
         wp_send_json_error($response);
+        wp_die();
     }
+
     $response['reaction'] = esc_attr($reaction);
     wp_send_json_success($response);
     wp_die();
