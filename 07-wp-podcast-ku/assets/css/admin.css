@@ -14,10 +14,6 @@
   flex-grow: 1;
 }
 
-/* .mejs-button.mejs-playpause-button.mejs-play button {
-  display: none;
-} */
-
 #wp-podcast-preview audio,
 #wp-podcast-preview .mejs-container {
   width: 100% !important;

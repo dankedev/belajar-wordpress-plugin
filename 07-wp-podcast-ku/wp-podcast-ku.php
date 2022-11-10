@@ -16,6 +16,7 @@
  * Domain Path:/languages
  */
 
+define('WP_PODCAST_KU_VERSION', '1.0.0');
 
 include_once(plugin_dir_path(__FILE__) . '/includes/podcast-post-type.php');
 include_once(plugin_dir_path(__FILE__) . '/includes/podcast-metabox.php');
@@ -25,37 +26,57 @@ include_once(plugin_dir_path(__FILE__) . '/includes/podcast-content.php');
 function wp_podcast_ku_admin_script()
 {
     global $post_type;
-    if ('podcast' == $post_type) {
-        wp_enqueue_style('wp-podcast-style', plugin_dir_url(__FILE__) . 'assets/css/admin.css', array('wp-mediaelement'), time(), 'all');
 
-        wp_enqueue_script('wp-podcast-js', plugin_dir_url(__FILE__) . 'assets/js/admin.js', array('jquery', 'media-upload', 'thickbox', 'wp-mediaelement'), time(), true);
+    //tampilkan hanya di halaman post type `podcast` saja
+    if ('podcast' == $post_type) {
+        wp_enqueue_script(
+            'wp-podcast-js',
+            plugin_dir_url(__FILE__) . 'assets/js/admin.js',
+            array(
+                'jquery',
+                'media-upload',
+                'wp-mediaelement'
+            ),
+            time(),
+            true
+        );
+
+        wp_enqueue_style(
+            'wp-podcast-style',
+            plugin_dir_url(__FILE__) . 'assets/css/admin.css',
+            array('wp-mediaelement'),
+            time(),
+            'all'
+        );
     }
 }
 
-// add_action('')
+// // add_action('')
 add_action('admin_print_scripts-post-new.php', 'wp_podcast_ku_admin_script', 11);
 add_action('admin_print_scripts-post.php', 'wp_podcast_ku_admin_script', 11);
 
 
 function wp_podcast_ku_front_end_script()
 {
+    $version = defined('WP_DEBUG') && WP_DEBUG ? time() : WP_PODCAST_KU_VERSION;
     // global $post_type;
-    wp_enqueue_style('wp-podcast-front', plugin_dir_url(__FILE__) . 'assets/css/front.css', array('wp-mediaelement'), time(), 'all');
+    wp_enqueue_style(
+        'wp-podcast-front',
+        plugin_dir_url(__FILE__) . 'assets/css/front.css',
+        array('wp-mediaelement'),
+        $version,
+        'all'
+    );
 
-    wp_enqueue_script('wp-podcast-front', plugin_dir_url(__FILE__) . 'assets/js/front.js', array('jquery',  'wp-mediaelement'), time(), true);
+    wp_enqueue_script(
+        'wp-podcast-front',
+        plugin_dir_url(__FILE__) . 'assets/js/front.js',
+        array(
+            'jquery',
+            'wp-mediaelement'
+        ),
+        $version,
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'wp_podcast_ku_front_end_script');
-
-// // add_filter('single_template', 'wp_podcast_ku_template');
-
-// function wp_podcast_ku_template($single)
-// {
-//     global $post;
-//     if ($post->post_type == 'podcast') {
-//         if (file_exists(plugin_dir_path(__FILE__) . '/includes/single-podcast.php')) {
-//             return plugin_dir_path(__FILE__) . '/includes/single-podcast.php';
-//         }
-//     }
-
-//     return $single;
-// }

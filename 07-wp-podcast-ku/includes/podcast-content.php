@@ -36,7 +36,7 @@ function wp_podcast_ku_player($post_id = null)
     }
     $podcast_url = isset($data['podcast_url']) ? esc_url($data['podcast_url']) : null;
 
-    $podcast_type = isset($data['podcast_type']) ? esc_attr($data['podcast_type']) : null;
+    $podcast_access = isset($data['podcast_access']) ? esc_attr($data['podcast_access']) : null;
 
     if (is_null($podcast_url)) {
         return '';
@@ -59,6 +59,8 @@ function wp_podcast_ku_player($post_id = null)
         $terms_output[] = wp_sprintf('<a href="%s" target="_blank">%s</a>', esc_url($term_url), esc_attr($term->name));
     }
 
+
+
     $output = '<div id="wp-podcast-player-wrapper">';
     if ($cover) {
         $output .= wp_sprintf('<div class="wp-podcast-player-cover"><img src="%s" lat="%s"/></div>', esc_url($cover), get_the_title($post_id));
@@ -67,15 +69,20 @@ function wp_podcast_ku_player($post_id = null)
     $output .= wp_sprintf('<div class="wp-podcast-terms">%s</div>', implode(', ', $terms_output));
     $output .= wp_sprintf('<h2 class="wp-podcast-player-hader">%s</h2>', get_the_title($post_id));
 
-    $output .= '<div class="wp-podcast-player-container">';
+    //cek login jika podcast di setting hanya untuk member
+    if ($podcast_access === 'member' && !is_user_logged_in()) {
+        $output .= wp_podcast_ku_fake_player($post_id);
+    } else {
+        $output .= '<div class="wp-podcast-player-container">';
+        $output .= wp_sprintf('<audio controls class="wp-podcast-player"><source src="%s" type="%s"></audio>', esc_url($podcast_url), $audioType);
+        $output .= '</div>';
+    }
 
-    $output .= wp_sprintf('<audio controls class="wp-podcast-player"><source src="%s" type="%s"></audio>', esc_url($podcast_url), $audioType);
+
+
+
     $output .= '</div>';
     $output .= '</div>';
-
-
-    $output .= '</div>';
-
     return $output;
 }
 
@@ -97,6 +104,24 @@ function wp_podcast_register_shortcode($atts)
     if ($attributes['id'] === null) {
         return '';
     }
-
     return wp_podcast_ku_player(intval($attributes['id']));
+}
+
+
+function wp_podcast_ku_fake_player($post_id)
+{
+    $redirect_url = get_permalink($post_id);
+    ob_start();
+    ?>
+    <div class="wp-podcast-fake-player">
+        <div class="mejs-button"><button></button></div>
+        <div class="wp-podcast-fake-rails"><a href="<?php echo wp_login_url($redirect_url); ?>" class="player-link-login">Login untuk mendengar</a>
+            <span class="podcast-fake-progress"></span>
+        </div>
+        <span class=" fake-duration">10:00</span>
+        <span class="fake-duration">00:00</span>
+    </div>
+<?php
+        $output = ob_get_clean();
+    return $output;
 }

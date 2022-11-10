@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
   var file_frame;
-  var buttonAttribute = "button[data-action=wp-podcast-upload-button]";
   var previewAttribute = "div#wp-podcast-preview";
   var fileInputAttribute = "input#wp-podcast-file-upload-input";
 
@@ -12,11 +11,13 @@ jQuery(document).ready(function ($) {
     mp4: "audio/mp4",
   };
 
+  //url.com/folder/nama-filenya-apa.mp3
   function getFiletype(filename) {
     return filename.split(".").pop();
   }
 
-  function previewPorcastFile() {
+  //function to preview audio file
+  function previewPodcastFile() {
     var valueFilePodcast = $(fileInputAttribute).val();
 
     if ("" !== valueFilePodcast) {
@@ -26,9 +27,8 @@ jQuery(document).ready(function ($) {
         var htmlAudio = `<audio controls id="wp-podcast-player"><source src="${valueFilePodcast}" type="${audioType}"></audio>`;
         $(previewAttribute).html(htmlAudio);
         $("#wp-podcast-player").mediaelementplayer({
-          // API options
           features: ["playpause", "progress", "duration", "current"],
-          alwaysShowControls: true,
+          alwaysShowControls: false,
           enableProgressTooltip: true,
           timeAndDurationSeparator: true,
           iPadUseNativeControls: true,
@@ -39,21 +39,18 @@ jQuery(document).ready(function ($) {
       }
     }
   }
-  previewPorcastFile();
 
-  // Uploading files
+  previewPodcastFile();
 
-  $(buttonAttribute).click(function (e) {
+  $("button[data-action=wp-podcast-upload-button]").click(function (e) {
     e.preventDefault();
-    // jika sudah pernah ada file_frame nya, langsung reopen dialog wp.media -nya
     if (file_frame) {
       file_frame.open();
       return;
     }
-    // Extend the wp.media object
 
     file_frame = wp.media.frames.file_frame = wp.media({
-      title: "Select Audio/Video",
+      title: "Select Podcast Audio",
       button: {
         text: "Select media",
       },
@@ -62,15 +59,14 @@ jQuery(document).ready(function ($) {
         type: "",
       },
     });
-    // Ketika file telah dipilih, dapatkan URL dan jadikan URL tersebut sebagai value untuk file input nya
+
     file_frame.on("select", function () {
       var attachment = file_frame.state().get("selection").first().toJSON();
-      console.log(getFiletype(attachment.url));
+
       $(fileInputAttribute).val(attachment.url);
-      previewPorcastFile();
+      previewPodcastFile();
     });
 
-    // Open the upload dialog
     file_frame.open();
   });
 });
