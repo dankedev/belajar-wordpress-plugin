@@ -118,7 +118,7 @@ function wp_podcast_ku_fake_player($post_id)
         <div class="wp-podcast-fake-rails"><a href="<?php echo wp_login_url($redirect_url); ?>" class="player-link-login">Login untuk mendengar</a>
             <span class="podcast-fake-progress"></span>
         </div>
-        <span class=" fake-duration">10:00</span>
+        <span class="fake-duration">10:00</span>
         <span class="fake-duration">00:00</span>
     </div>
 <?php
