@@ -64,7 +64,7 @@ function wp_podcast_ku_front_end_script()
         'wp-podcast-front',
         plugin_dir_url(__FILE__) . 'assets/css/front.css',
         array('wp-mediaelement'),
-        $version,
+        time(),
         'all'
     );
 
@@ -75,7 +75,7 @@ function wp_podcast_ku_front_end_script()
             'jquery',
             'wp-mediaelement'
         ),
-        $version,
+        time(),
         true
     );
 }

@@ -19,6 +19,8 @@ function wp_podcast_ku_player($post_id = null)
         global $post;
         $post_id = $post->ID;
     }
+    $data = get_post_meta($post_id, 'wp_podcast_ku', true);
+    $data = $data ?? array();
 
     $mimeType = array(
         "mp3" => "audio/mpeg",
@@ -28,12 +30,12 @@ function wp_podcast_ku_player($post_id = null)
         "mp4" => "audio/mp4",
     );
 
-    $data = get_post_meta($post_id, 'wp_podcast_ku', true);
-    $data = $data ?? array();
+
 
     if (empty($data)) {
         return '';
     }
+
     $podcast_url = isset($data['podcast_url']) ? esc_url($data['podcast_url']) : null;
 
     $podcast_access = isset($data['podcast_access']) ? esc_attr($data['podcast_access']) : null;
@@ -79,10 +81,29 @@ function wp_podcast_ku_player($post_id = null)
     }
 
 
-
-
     $output .= '</div>';
     $output .= '</div>';
+    return $output;
+}
+
+
+
+function wp_podcast_ku_fake_player($post_id)
+{
+    $redirect_url = get_permalink($post_id);
+
+    ob_start();
+    ?>
+    <div class="wp-podcast-fake-player">
+        <div class="mejs-button"><button></button></div>
+        <div class="wp-podcast-fake-rails"><a href="<?php echo wp_login_url($redirect_url); ?>" class="player-link-login">Login untuk mendengar</a>
+            <span class="podcast-fake-progress"></span>
+        </div>
+        <span class="fake-duration">10:00</span>
+        <span class="fake-duration">00:00</span>
+    </div>
+<?php
+        $output = ob_get_clean();
     return $output;
 }
 
@@ -100,28 +121,9 @@ function wp_podcast_register_shortcode($atts)
         $atts
     );
 
-
     if ($attributes['id'] === null) {
         return '';
     }
+
     return wp_podcast_ku_player(intval($attributes['id']));
-}
-
-
-function wp_podcast_ku_fake_player($post_id)
-{
-    $redirect_url = get_permalink($post_id);
-    ob_start();
-    ?>
-    <div class="wp-podcast-fake-player">
-        <div class="mejs-button"><button></button></div>
-        <div class="wp-podcast-fake-rails"><a href="<?php echo wp_login_url($redirect_url); ?>" class="player-link-login">Login untuk mendengar</a>
-            <span class="podcast-fake-progress"></span>
-        </div>
-        <span class="fake-duration">10:00</span>
-        <span class="fake-duration">00:00</span>
-    </div>
-<?php
-        $output = ob_get_clean();
-    return $output;
 }

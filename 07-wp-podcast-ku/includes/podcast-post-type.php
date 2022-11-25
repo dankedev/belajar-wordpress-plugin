@@ -118,49 +118,82 @@ function wp_podcast_ku_taxonomy()
 //showcase/web
 //showcase/mobile-apps
 
+// add_filter('manage_podcast_posts_columns', 'wp_podcast_ku_add_new_column', 10, 1);
+
+// function wp_podcast_ku_add_new_column($columns)
+// {
+//     // hapus kolom tanggal podcast
+//     unset($columns['date']);
+
+//     //sementara hapus comments, akan kita pindah susunanya
+//     unset($columns['comments']);
+
+//     // hapus podcast category
+//     unset($columns['taxonomy-podcast-categories']);
+//     $columns['title'] = __('Episode title', 'wp-podcasts-ku');
+
+//     // ganti table label untuk "title"
+//     $columns['title'] = __('Episode title', 'wp-podcasts-ku');
+
+
+//     // daftarkan column baru untuk shortcode dan memasang kembali podcast category
+//     $columns['podcast_shortcode'] = __('Shortcode', 'your_text_domainwp-podcasts-ku');
+//     $columns['taxonomy-podcast-categories'] = __('Categories', 'your_text_domainwp-podcasts-ku');
+
+
+//     //pasang kembali column comments
+//     $columns['comments'] = '<span class="vers comment-grey-bubble" title="Comments"><span class="screen-reader-text">Comments</span></span>';
+
+
+//     //jangan lupa return semua columns
+//     return $columns;
+// }
+
+
+// add_action('manage_podcast_posts_custom_column', 'wp_podcast_ku_custom_column', 10, 2);
+
+
+// function wp_podcast_ku_custom_column($column, $post_id)
+// {
+//     $shortcode = wp_sprintf('[wp-podcast id="%d"]', $post_id);
+
+//     if ($column === 'podcast_shortcode') {
+//         echo wp_sprintf('<input  readonly type="text" value="%s"/>', esc_html($shortcode));
+//     }
+
+
+//     return $column;
+// }
+
+
 add_filter('manage_podcast_posts_columns', 'wp_podcast_ku_add_new_column', 10, 1);
+
 
 function wp_podcast_ku_add_new_column($columns)
 {
-    // hapus kolom tanggal podcast
     unset($columns['date']);
-
-    //sementara hapus comments, akan kita pindah susunanya
     unset($columns['comments']);
-
-    // hapus podcast category
     unset($columns['taxonomy-podcast-categories']);
+
     $columns['title'] = __('Episode title', 'wp-podcasts-ku');
 
-    // ganti table label untuk "title"
-    $columns['title'] = __('Episode title', 'wp-podcasts-ku');
-
-
-    // daftarkan column baru untuk shortcode dan memasang kembali podcast category
     $columns['podcast_shortcode'] = __('Shortcode', 'your_text_domainwp-podcasts-ku');
+
     $columns['taxonomy-podcast-categories'] = __('Categories', 'your_text_domainwp-podcasts-ku');
 
 
-    //pasang kembali column comments
-    $columns['comments'] = '<span class="vers comment-grey-bubble" title="Comments"><span class="screen-reader-text">Comments</span></span>';
-
-
-    //jangan lupa return semua columns
     return $columns;
 }
 
 
 add_action('manage_podcast_posts_custom_column', 'wp_podcast_ku_custom_column', 10, 2);
 
-
 function wp_podcast_ku_custom_column($column, $post_id)
 {
     $shortcode = wp_sprintf('[wp-podcast id="%d"]', $post_id);
-
     if ($column === 'podcast_shortcode') {
         echo wp_sprintf('<input  readonly type="text" value="%s"/>', esc_html($shortcode));
     }
-
 
     return $column;
 }
